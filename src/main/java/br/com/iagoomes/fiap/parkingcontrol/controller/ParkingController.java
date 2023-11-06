@@ -1,6 +1,9 @@
 package br.com.iagoomes.fiap.parkingcontrol.controller;
 
 import br.com.iagoomes.fiap.parkingcontrol.dto.CondutorDto;
+import br.com.iagoomes.fiap.parkingcontrol.dto.CondutorDtoResponse;
+import br.com.iagoomes.fiap.parkingcontrol.dto.VeiculoDto;
+import br.com.iagoomes.fiap.parkingcontrol.dto.VeiculoDtoResponse;
 import br.com.iagoomes.fiap.parkingcontrol.service.CondutorService;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
@@ -19,12 +22,13 @@ public class ParkingController {
     }
 
     @PostMapping
-    public ResponseEntity<CondutorDto> cadastrarCondutor(@Valid @RequestBody CondutorDto condutorDto) {
+    public ResponseEntity<CondutorDtoResponse> cadastrarCondutor(@Valid @RequestBody CondutorDto condutorDto) {
         return condutorService.cadastrarCondutor(condutorDto);
     }
 
-//    @PostMapping("veiculo")
-//    public ResponseEntity<CondutorDto> cadastroVeiculo(@Valid @RequestBody VeiculoDto veiculoDto){
-//
-//    }
+    @PostMapping("veiculo")
+    public ResponseEntity<VeiculoDtoResponse> cadastroVeiculo(@Valid @RequestBody VeiculoDto veiculoDto){
+        return condutorService.cadastrarVeiculo(veiculoDto);
+    }
+
 }

@@ -19,6 +19,7 @@ public class Condutor {
     @SequenceGenerator(name = "SPK_Condutor", sequenceName = "SPK_Condutor_bd", allocationSize = 1)
     private Long id;
     private String nome;
+    private String cpf;
     @Embedded
     private Endereco endereco;
     private String telefone;
@@ -28,6 +29,7 @@ public class Condutor {
 
     public Condutor(CondutorDto condutorDto) {
         this.nome = condutorDto.nome();
+        this.cpf = condutorDto.cpf();
         this.endereco = new Endereco(condutorDto.enderecoDto());
         this.telefone = condutorDto.telefone();
         this.email = condutorDto.email();
