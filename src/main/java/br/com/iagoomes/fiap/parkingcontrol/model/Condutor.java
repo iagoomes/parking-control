@@ -39,9 +39,9 @@ public class Condutor {
     @JsonIgnore
     private List<Veiculo> veiculos;
 
-    @OneToMany(mappedBy = "condutor")
-    @JsonIgnore
-    private List<Contrato> contrato;
+    @Enumerated(EnumType.STRING)
+    @Column(name = "tipo_pagamento")
+    private TipoPagamento tipoPagamento;
 
     public Condutor(CondutorDto condutorDto) {
         this.nome = condutorDto.nome();
@@ -49,5 +49,6 @@ public class Condutor {
         this.endereco = new Endereco(condutorDto.enderecoDto());
         this.telefone = condutorDto.telefone();
         this.email = condutorDto.email();
+        this.tipoPagamento = condutorDto.tipoPagamento();
     }
 }

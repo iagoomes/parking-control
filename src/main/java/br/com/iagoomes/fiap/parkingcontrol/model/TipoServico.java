@@ -1,5 +1,5 @@
 package br.com.iagoomes.fiap.parkingcontrol.model;
 
-public enum TipoContrato {
+public enum TipoServico {
     FIXO, AVULSO
 }
