@@ -26,31 +26,27 @@ public class ParquimetroService {
         this.condutorRepository = condutorRepository;
     }
 
-    public ResponseEntity iniciarEstacionamentoFixo(EstacionamentoFixoDto estacionamentoFixoDto) {
-        RegistrosEstacionamento registrosEstacionamento = new RegistrosEstacionamento(estacionamentoFixoDto);
+    public ResponseEntity iniciarEstacionamento(EstacionamentoFixoDto estacionamentoFixoDto) {
+        RegistrosEstacionamento estacionamento = new RegistrosEstacionamento(estacionamentoFixoDto);
         Optional<Condutor> condutorOptional = condutorRepository.findById(estacionamentoFixoDto.condutorId());
         if (condutorOptional.isEmpty()) {
             return ResponseEntity.badRequest().body("Condutor não encontrado");
         }
         Condutor condutor = condutorOptional.get();
 
-        if (registrosEstacionamento.getTipoPagamento() == null) {
-            if (condutor.getTipoPagamento().equals(TipoPagamento.PIX) && registrosEstacionamento.getTipoServico() != TipoServico.FIXO) {
-                return ResponseEntity.badRequest().body("A opção PIX só está disponível para períodos de estacionamento fixos");
-            }
-            registrosEstacionamento.setTipoPagamento(condutor.getTipoPagamento());
-        } else {
-            if (registrosEstacionamento.getTipoPagamento().equals(TipoPagamento.PIX) && registrosEstacionamento.getTipoServico() != TipoServico.FIXO) {
-                return ResponseEntity.badRequest().body("A opção PIX só está disponível para períodos de estacionamento fixos");
-            }
-            registrosEstacionamento.setTipoPagamento(condutor.getTipoPagamento());
+        TipoPagamento tipoPagamento = estacionamento.getTipoPagamento();
+        if (tipoPagamento == null) {
+            tipoPagamento = condutor.getTipoPagamento();
         }
-
+        if (tipoPagamento.equals(TipoPagamento.PIX) && estacionamento.getTipoServico() != TipoServico.FIXO){
+            return ResponseEntity.badRequest().body("A opção PIX só está disponível para períodos de estacionamento fixos");
+        }
+        estacionamento.setTipoPagamento(tipoPagamento);
         Duration duracao = Duration.between(estacionamentoFixoDto.dataInicio(), estacionamentoFixoDto.dataFim());
-        registrosEstacionamento.setCondutor(condutor);
-        registrosEstacionamento.setValor(valorPorHora.multiply(BigDecimal.valueOf(duracao.toHours())));
+        estacionamento.setCondutor(condutor);
+        estacionamento.setValor(valorPorHora.multiply(BigDecimal.valueOf(duracao.toHours())));
 
-        return ResponseEntity.ok(new EstacionamentoFixoDto(registrosEstacionamentosRepository.save(registrosEstacionamento)));
+        return ResponseEntity.ok(new EstacionamentoFixoDto(registrosEstacionamentosRepository.save(estacionamento)));
     }
 
 }

@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Getter
@@ -15,6 +16,9 @@ import java.time.LocalDateTime;
 @Entity(name = "RegistrosEstacionamento")
 @Table(name = "registros_Estacionamento")
 public class RegistrosEstacionamento {
+
+    public static BigDecimal valorPorHora = new BigDecimal("5.0");
+
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SPK_RegistrosEstacionamento")
     @SequenceGenerator(name = "SPK_RegistrosEstacionamento", sequenceName = "SPK_RegistrosEstacionamento_bd", allocationSize = 1)
@@ -38,7 +42,10 @@ public class RegistrosEstacionamento {
     @Column(name = "data_fim")
     private LocalDateTime dataFim;
 
+    private BigDecimal valor;
+
     public RegistrosEstacionamento(EstacionamentoFixoDto estacionamentoFixoDto) {
+        this.tipoPagamento = estacionamentoFixoDto.tipoPagamento();
         this.tipoServico = estacionamentoFixoDto.tipoServico();
         this.dataInicio = estacionamentoFixoDto.dataInicio();
         this.dataFim = estacionamentoFixoDto.dataFim();
