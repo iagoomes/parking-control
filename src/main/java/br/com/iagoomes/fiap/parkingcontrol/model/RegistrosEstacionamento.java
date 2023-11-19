@@ -1,6 +1,7 @@
 package br.com.iagoomes.fiap.parkingcontrol.model;
 
 import br.com.iagoomes.fiap.parkingcontrol.dto.EstacionamentoFixoDto;
+import br.com.iagoomes.fiap.parkingcontrol.dto.EstacionamentoPorHoraDto;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
@@ -52,5 +53,11 @@ public class RegistrosEstacionamento {
         this.tipoServico = EstacionamentoFixoDto.tipoServico;
         this.dataInicio = estacionamentoFixoDto.dataInicio();
         this.dataFim = estacionamentoFixoDto.dataFim();
+    }
+
+    public RegistrosEstacionamento(EstacionamentoPorHoraDto estacionamentoPorHoraDto) {
+        this.tipoPagamento = estacionamentoPorHoraDto.tipoPagamento();
+        this.tipoServico = EstacionamentoPorHoraDto.tipoServico;
+        this.dataInicio = estacionamentoPorHoraDto.dataInicio();
     }
 }

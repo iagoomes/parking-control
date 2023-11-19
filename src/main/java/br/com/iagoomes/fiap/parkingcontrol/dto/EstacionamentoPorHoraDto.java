@@ -11,5 +11,5 @@ import java.time.LocalDateTime;
 public record EstacionamentoPorHoraDto(Long condutorId,
                                        TipoPagamento tipoPagamento,
                                        @NotNull @FutureOrPresent LocalDateTime dataInicio) {
-    public static final TipoServico tipoServico = TipoServico.FIXO;
+    public static final TipoServico tipoServico = TipoServico.POR_HORA;
 }

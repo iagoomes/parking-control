@@ -1,7 +1,9 @@
 package br.com.iagoomes.fiap.parkingcontrol.service;
 
 import br.com.iagoomes.fiap.parkingcontrol.dto.EstacionamentoFixoDto;
+import br.com.iagoomes.fiap.parkingcontrol.dto.EstacionamentoFixoResponseDto;
 import br.com.iagoomes.fiap.parkingcontrol.dto.EstacionamentoPorHoraDto;
+import br.com.iagoomes.fiap.parkingcontrol.dto.EstacionamentoPorHoraResponseDto;
 import br.com.iagoomes.fiap.parkingcontrol.model.Condutor;
 import br.com.iagoomes.fiap.parkingcontrol.model.RegistrosEstacionamento;
 import br.com.iagoomes.fiap.parkingcontrol.model.TipoPagamento;
@@ -47,11 +49,29 @@ public class ParquimetroService {
         estacionamento.setCondutor(condutor);
         estacionamento.setValor(valorPorHora.multiply(BigDecimal.valueOf(duracao.toHours())));
         estacionamento.setStatus(Boolean.TRUE);
-        return ResponseEntity.ok(new EstacionamentoFixoDto(registrosEstacionamentosRepository.save(estacionamento)));
+        return ResponseEntity.ok(new EstacionamentoFixoResponseDto(registrosEstacionamentosRepository.save(estacionamento)));
     }
 
     public ResponseEntity iniciarEstacionamentoPorHora(EstacionamentoPorHoraDto estacionamentoPorHoraDto) {
+        RegistrosEstacionamento estacionamento = new RegistrosEstacionamento(estacionamentoPorHoraDto);
+        Optional<Condutor> condutorOptional = condutorRepository.findById(estacionamentoPorHoraDto.condutorId());
+        if (condutorOptional.isEmpty()) {
+            return ResponseEntity.badRequest().body("Condutor não encontrado");
+        }
+        Condutor condutor = condutorOptional.get();
 
+        TipoPagamento tipoPagamento = estacionamento.getTipoPagamento();
+        if (tipoPagamento == null) {
+            tipoPagamento = condutor.getTipoPagamento();
+        }
+        if (tipoPagamento.equals(TipoPagamento.PIX) && estacionamento.getTipoServico() != TipoServico.FIXO) {
+            return ResponseEntity.badRequest().body("A opção PIX só está disponível para períodos de estacionamento fixos");
+        }
+        estacionamento.setTipoPagamento(tipoPagamento);
+        estacionamento.setCondutor(condutor);
+        estacionamento.setStatus(Boolean.TRUE);
+
+        return ResponseEntity.ok(new EstacionamentoPorHoraResponseDto(registrosEstacionamentosRepository.save(estacionamento)));
     }
 
 }
