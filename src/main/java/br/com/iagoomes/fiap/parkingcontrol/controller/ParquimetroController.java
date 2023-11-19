@@ -2,6 +2,7 @@ package br.com.iagoomes.fiap.parkingcontrol.controller;
 
 import br.com.iagoomes.fiap.parkingcontrol.dto.EstacionamentoFixoDto;
 import br.com.iagoomes.fiap.parkingcontrol.service.ParquimetroService;
+import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -17,8 +18,8 @@ public class ParquimetroController {
         this.parquimetroService = parquimetroService;
     }
 
-    @PostMapping
-    public ResponseEntity iniciarEstacionamentoFixo(@RequestBody EstacionamentoFixoDto inicioEstacionamentoFixoDto) {
-        return parquimetroService.iniciarEstacionamento(inicioEstacionamentoFixoDto);
+    @PostMapping("fixo")
+    public ResponseEntity iniciarEstacionamentoFixo(@RequestBody @Valid EstacionamentoFixoDto inicioEstacionamentoFixoDto) {
+        return parquimetroService.iniciarEstacionamentoFixo(inicioEstacionamentoFixoDto);
     }
 }

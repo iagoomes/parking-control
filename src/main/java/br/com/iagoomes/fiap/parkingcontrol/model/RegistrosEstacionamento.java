@@ -34,6 +34,7 @@ public class RegistrosEstacionamento {
     private TipoPagamento tipoPagamento;
 
     @Column(name = "tipo_servico")
+    @Enumerated(EnumType.STRING)
     private TipoServico tipoServico;
 
     @Column(name = "data_inicio")
@@ -44,9 +45,11 @@ public class RegistrosEstacionamento {
 
     private BigDecimal valor;
 
+    private Boolean status;
+
     public RegistrosEstacionamento(EstacionamentoFixoDto estacionamentoFixoDto) {
         this.tipoPagamento = estacionamentoFixoDto.tipoPagamento();
-        this.tipoServico = estacionamentoFixoDto.tipoServico();
+        this.tipoServico = EstacionamentoFixoDto.tipoServico;
         this.dataInicio = estacionamentoFixoDto.dataInicio();
         this.dataFim = estacionamentoFixoDto.dataFim();
     }
