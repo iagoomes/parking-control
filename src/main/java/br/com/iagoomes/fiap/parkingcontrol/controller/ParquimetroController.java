@@ -28,4 +28,8 @@ public class ParquimetroController {
     public ResponseEntity iniciarEstacionamentoPorHora(@RequestBody @Valid EstacionamentoPorHoraDto estacionamentoPorHoraDto) {
         return parquimetroService.iniciarEstacionamentoPorHora(estacionamentoPorHoraDto);
     }
+
+    public ResponseEntity encerrarEstacionamento() {
+        return null;
+    }
 }
