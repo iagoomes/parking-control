@@ -3,7 +3,6 @@ package br.com.iagoomes.fiap.parkingcontrol.dto;
 import br.com.iagoomes.fiap.parkingcontrol.model.RegistrosEstacionamento;
 import br.com.iagoomes.fiap.parkingcontrol.model.TipoPagamento;
 import br.com.iagoomes.fiap.parkingcontrol.model.TipoServico;
-import jakarta.validation.constraints.NotNull;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;

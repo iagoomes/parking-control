@@ -5,7 +5,6 @@ import br.com.iagoomes.fiap.parkingcontrol.model.TipoServico;
 import jakarta.validation.constraints.FutureOrPresent;
 import jakarta.validation.constraints.NotNull;
 
-import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 public record EstacionamentoPorHoraDto(Long condutorId,

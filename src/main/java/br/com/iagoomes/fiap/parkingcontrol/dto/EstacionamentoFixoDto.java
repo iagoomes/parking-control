@@ -13,7 +13,4 @@ public record EstacionamentoFixoDto(@NotNull Long condutorId,
                                     @NotNull @FutureOrPresent LocalDateTime dataFim) {
 
     public static final TipoServico tipoServico = TipoServico.FIXO;
-    public EstacionamentoFixoDto(RegistrosEstacionamento save) {
-        this(save.getId(), save.getTipoPagamento(), save.getDataInicio(), save.getDataFim());
-    }
 }
