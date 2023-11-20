@@ -49,15 +49,15 @@ public class RegistrosEstacionamento {
     private Boolean status;
 
     public RegistrosEstacionamento(EstacionamentoFixoDto estacionamentoFixoDto) {
-        this.tipoPagamento = estacionamentoFixoDto.tipoPagamento();
-        this.tipoServico = EstacionamentoFixoDto.tipoServico;
-        this.dataInicio = estacionamentoFixoDto.dataInicio();
-        this.dataFim = estacionamentoFixoDto.dataFim();
+        this.tipoPagamento = estacionamentoFixoDto.getTipoPagamento();
+        this.tipoServico = estacionamentoFixoDto.getTipoServico();
+        this.dataInicio = estacionamentoFixoDto.getDataInicio();
+        this.dataFim = estacionamentoFixoDto.getDataFim();
     }
 
     public RegistrosEstacionamento(EstacionamentoPorHoraDto estacionamentoPorHoraDto) {
-        this.tipoPagamento = estacionamentoPorHoraDto.tipoPagamento();
-        this.tipoServico = EstacionamentoPorHoraDto.tipoServico;
-        this.dataInicio = estacionamentoPorHoraDto.dataInicio();
+        this.tipoPagamento = estacionamentoPorHoraDto.getTipoPagamento();
+        this.tipoServico = estacionamentoPorHoraDto.getTipoServico();
+        this.dataInicio = estacionamentoPorHoraDto.getDataInicio();
     }
 }

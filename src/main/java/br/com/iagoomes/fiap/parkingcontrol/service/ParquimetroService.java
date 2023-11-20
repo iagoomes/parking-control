@@ -29,7 +29,7 @@ public class ParquimetroService {
 
     public ResponseEntity iniciarEstacionamentoFixo(EstacionamentoFixoDto estacionamentoFixoDto) {
         RegistrosEstacionamento estacionamento = new RegistrosEstacionamento(estacionamentoFixoDto);
-        Optional<Condutor> condutorOptional = condutorRepository.findById(estacionamentoFixoDto.condutorId());
+        Optional<Condutor> condutorOptional = condutorRepository.findById(estacionamentoFixoDto.getCondutorId());
 
         if (condutorOptional.isEmpty()) {
             return ResponseEntity.badRequest().body("Condutor não encontrado");
@@ -56,7 +56,7 @@ public class ParquimetroService {
 
     public ResponseEntity iniciarEstacionamentoPorHora(EstacionamentoPorHoraDto estacionamentoPorHoraDto) {
         RegistrosEstacionamento estacionamento = new RegistrosEstacionamento(estacionamentoPorHoraDto);
-        Optional<Condutor> condutorOptional = condutorRepository.findById(estacionamentoPorHoraDto.condutorId());
+        Optional<Condutor> condutorOptional = condutorRepository.findById(estacionamentoPorHoraDto.getCondutorId());
         if (condutorOptional.isEmpty()) {
             return ResponseEntity.badRequest().body("Condutor não encontrado");
         }
