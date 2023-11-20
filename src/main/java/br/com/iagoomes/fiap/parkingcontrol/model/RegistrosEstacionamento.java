@@ -18,7 +18,7 @@ import java.time.LocalDateTime;
 @Table(name = "registros_Estacionamento")
 public class RegistrosEstacionamento {
 
-    public static BigDecimal valorPorHora = new BigDecimal("5.0");
+    public static BigDecimal valorPorHora = new BigDecimal("15.0");
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SPK_RegistrosEstacionamento")

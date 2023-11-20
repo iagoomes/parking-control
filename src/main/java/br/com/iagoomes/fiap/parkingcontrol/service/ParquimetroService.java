@@ -1,9 +1,6 @@
 package br.com.iagoomes.fiap.parkingcontrol.service;
 
-import br.com.iagoomes.fiap.parkingcontrol.dto.EstacionamentoFixoDto;
-import br.com.iagoomes.fiap.parkingcontrol.dto.EstacionamentoFixoResponseDto;
-import br.com.iagoomes.fiap.parkingcontrol.dto.EstacionamentoPorHoraDto;
-import br.com.iagoomes.fiap.parkingcontrol.dto.EstacionamentoPorHoraResponseDto;
+import br.com.iagoomes.fiap.parkingcontrol.dto.*;
 import br.com.iagoomes.fiap.parkingcontrol.model.Condutor;
 import br.com.iagoomes.fiap.parkingcontrol.model.RegistrosEstacionamento;
 import br.com.iagoomes.fiap.parkingcontrol.model.TipoPagamento;
@@ -15,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.time.Duration;
+import java.time.LocalDateTime;
 import java.util.Optional;
 
 import static br.com.iagoomes.fiap.parkingcontrol.model.RegistrosEstacionamento.valorPorHora;
@@ -32,23 +30,27 @@ public class ParquimetroService {
     public ResponseEntity iniciarEstacionamentoFixo(EstacionamentoFixoDto estacionamentoFixoDto) {
         RegistrosEstacionamento estacionamento = new RegistrosEstacionamento(estacionamentoFixoDto);
         Optional<Condutor> condutorOptional = condutorRepository.findById(estacionamentoFixoDto.condutorId());
+
         if (condutorOptional.isEmpty()) {
             return ResponseEntity.badRequest().body("Condutor não encontrado");
         }
+
         Condutor condutor = condutorOptional.get();
 
         TipoPagamento tipoPagamento = estacionamento.getTipoPagamento();
+
         if (tipoPagamento == null) {
             tipoPagamento = condutor.getTipoPagamento();
         }
+
         if (tipoPagamento.equals(TipoPagamento.PIX) && estacionamento.getTipoServico() != TipoServico.FIXO) {
             return ResponseEntity.badRequest().body("A opção PIX só está disponível para períodos de estacionamento fixos");
         }
+
         estacionamento.setTipoPagamento(tipoPagamento);
-        Duration duracao = Duration.between(estacionamentoFixoDto.dataInicio(), estacionamentoFixoDto.dataFim());
         estacionamento.setCondutor(condutor);
-        estacionamento.setValor(valorPorHora.multiply(BigDecimal.valueOf(duracao.toHours())));
         estacionamento.setStatus(Boolean.TRUE);
+
         return ResponseEntity.ok(new EstacionamentoFixoResponseDto(registrosEstacionamentosRepository.save(estacionamento)));
     }
 
@@ -72,6 +74,29 @@ public class ParquimetroService {
         estacionamento.setStatus(Boolean.TRUE);
 
         return ResponseEntity.ok(new EstacionamentoPorHoraResponseDto(registrosEstacionamentosRepository.save(estacionamento)));
+    }
+
+    public ResponseEntity encerrarEstacionamento(Long registroId) {
+        Optional<RegistrosEstacionamento> estacionamentoOptional = registrosEstacionamentosRepository.findById(registroId);
+        if (estacionamentoOptional.isEmpty()) {
+            return ResponseEntity.badRequest().body("Registro de estacionamento não encontrado");
+        }
+        RegistrosEstacionamento estacionamento = estacionamentoOptional.get();
+
+        if (estacionamento.getDataFim() == null) {
+            estacionamento.setValor(calcularValor(estacionamento.getDataInicio(), LocalDateTime.now()));
+        } else {
+            estacionamento.setValor(calcularValor(estacionamento.getDataInicio(), estacionamento.getDataFim()));
+        }
+        estacionamento.setStatus(Boolean.FALSE);
+        registrosEstacionamentosRepository.save(estacionamento);
+        return ResponseEntity.ok(new EstacionamentoPagoResponseDTO(estacionamento));
+    }
+
+    public BigDecimal calcularValor(LocalDateTime dataInicio, LocalDateTime dataFim) {
+        Duration duracao = Duration.between(dataInicio, dataFim);
+        long hours = Math.max(1, (long) Math.ceil(duracao.toMinutes() / 60.0));
+        return valorPorHora.multiply(BigDecimal.valueOf(hours));
     }
 
 }

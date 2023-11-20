@@ -6,6 +6,7 @@ import br.com.iagoomes.fiap.parkingcontrol.service.ParquimetroService;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -28,8 +29,8 @@ public class ParquimetroController {
     public ResponseEntity iniciarEstacionamentoPorHora(@RequestBody @Valid EstacionamentoPorHoraDto estacionamentoPorHoraDto) {
         return parquimetroService.iniciarEstacionamentoPorHora(estacionamentoPorHoraDto);
     }
-
-    public ResponseEntity encerrarEstacionamento() {
-        return null;
+    @PostMapping("encerrar/{id}")
+    public ResponseEntity encerrarEstacionamento(@PathVariable Long id) {
+        return parquimetroService.encerrarEstacionamento(id);
     }
 }
