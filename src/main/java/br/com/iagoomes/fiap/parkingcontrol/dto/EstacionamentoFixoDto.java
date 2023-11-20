@@ -1,5 +1,6 @@
 package br.com.iagoomes.fiap.parkingcontrol.dto;
 
+import br.com.iagoomes.fiap.parkingcontrol.dto.abs.EstacionamentoBaseDto;
 import br.com.iagoomes.fiap.parkingcontrol.model.TipoPagamento;
 import br.com.iagoomes.fiap.parkingcontrol.model.TipoServico;
 import jakarta.validation.constraints.FutureOrPresent;

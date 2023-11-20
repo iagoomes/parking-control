@@ -51,7 +51,7 @@ public class ParquimetroService {
         estacionamento.setCondutor(condutor);
         estacionamento.setStatus(Boolean.TRUE);
 
-        return ResponseEntity.ok(new EstacionamentoFixoResponseDto(registrosEstacionamentosRepository.save(estacionamento)));
+        return ResponseEntity.ok(new EstacionamentoResponseDto(registrosEstacionamentosRepository.save(estacionamento)));
     }
 
     public ResponseEntity iniciarEstacionamentoPorHora(EstacionamentoPorHoraDto estacionamentoPorHoraDto) {
@@ -73,7 +73,7 @@ public class ParquimetroService {
         estacionamento.setCondutor(condutor);
         estacionamento.setStatus(Boolean.TRUE);
 
-        return ResponseEntity.ok(new EstacionamentoPorHoraResponseDto(registrosEstacionamentosRepository.save(estacionamento)));
+        return ResponseEntity.ok(new EstacionamentoResponseDto(registrosEstacionamentosRepository.save(estacionamento)));
     }
 
     public ResponseEntity encerrarEstacionamento(Long registroId) {
@@ -90,7 +90,7 @@ public class ParquimetroService {
         }
         estacionamento.setStatus(Boolean.FALSE);
         registrosEstacionamentosRepository.save(estacionamento);
-        return ResponseEntity.ok(new EstacionamentoPagoResponseDTO(estacionamento));
+        return ResponseEntity.ok(new EstacionamentoPagoResponseDto(estacionamento));
     }
 
     public BigDecimal calcularValor(LocalDateTime dataInicio, LocalDateTime dataFim) {

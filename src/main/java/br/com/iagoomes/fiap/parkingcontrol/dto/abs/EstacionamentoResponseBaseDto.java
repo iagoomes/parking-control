@@ -1,4 +1,4 @@
-package br.com.iagoomes.fiap.parkingcontrol.dto;
+package br.com.iagoomes.fiap.parkingcontrol.dto.abs;
 
 import br.com.iagoomes.fiap.parkingcontrol.model.RegistrosEstacionamento;
 import br.com.iagoomes.fiap.parkingcontrol.model.TipoPagamento;
